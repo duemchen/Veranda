@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="info" strict="true" name="xXMLConfigTest" packages="org.apache.logging.log4j.test"  monitorInterval="10">
+  <Properties>
+    <Property name="filename">test.log</Property>
+  </Properties>
+  <Appenders>
+    <Appender type="Console" name="STDOUT">
+      <Layout type="PatternLayout" charset="UTF-8" pattern="%d %-5p \t %m %n"/>
+    </Appender>  
+    <Appender type="File" name="A1" fileName="${filename}">
+      <Layout type="PatternLayout">
+        <Pattern>%d %-5p [%c] \t %m%n</Pattern>
+      </Layout>
+    </Appender>
+    <RollingFile name="ROLL" fileName="logs/veranda.log"
+                 filePattern="logs/$${date:yyyy-MM}/veranda-%d{MM-dd-yyyy}-%i.log.gz">
+      <PatternLayout>
+        <Pattern>%d %-5p [%c] \t %m%n</Pattern>
+      </PatternLayout>
+      <Policies>
+        <TimeBasedTriggeringPolicy />
+        <SizeBasedTriggeringPolicy size="250 MB"/>
+      </Policies>
+      <DefaultRolloverStrategy max="10"/>
+    </RollingFile>	
+  </Appenders>
+  <Loggers>
+    <Logger name="org.apache.log4j.xml" level="debug">
+      <AppenderRef ref="A1"/>
+    </Logger>
+    <Root level="debug">
+      <!-- <AppenderRef ref="A1"/> --> 
+	  <AppenderRef ref="STDOUT"/> 
+	    <AppenderRef ref="ROLL"/>
+    </Root>
+  </Loggers>   
+</Configuration>
